@@ -53,4 +53,4 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration ${{buildconfiguration}} --no-restore
+        run: dotnet build --configuration ${{inputs.buildconfiguration}} --no-restore
