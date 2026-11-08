@@ -7,14 +7,17 @@ on:
         description: 'Version to build'
         required: false
         default: '9.0.x'
+        type: string
       artifactname:
         description: 'Artifact name'
         required: false
         default: 'app.package'
+        type: string
       buildconfiguration:
         description: 'Build configuration'
         required: false
         default: 'Release'
+        type: string
 jobs:
   extract-version:
     runs-on: ubuntu-latest
