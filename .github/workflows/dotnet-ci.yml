@@ -83,10 +83,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
-          name: ${{inputs.artifactname}}
+          name: ${{ inputs.artifactname }}
+
       - name: Mostrar variable
         run: |
           echo "Environment: ${{ inputs.environment }}"
