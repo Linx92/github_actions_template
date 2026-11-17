@@ -27,7 +27,7 @@ jobs:
   extract-version:
     runs-on: ubuntu-latest
     outputs:
-      app_version: ${{ steps.extract-version.outputs.VERSION }}
+      app_version: ${{ steps.extract-version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -35,7 +35,7 @@ jobs:
         id: extract-version
         run: |
           version=$(grep -oPm1 '(?<=## \[)[^\]]+' CHANGELOG.md)
-          echo "Extracted version: $VERSION"
+          echo "Extracted version: $version"
           echo "version=$version" >> $GITHUB_OUTPUT
 
   build:
@@ -47,7 +47,7 @@ jobs:
           echo "Version: ${{ needs.extract-version.outputs.app_version }}"
       
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
       
       - name: Install dotnet
         uses: actions/setup-dotnet@v5
@@ -81,7 +81,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
       
       - name: Upload artifact
         uses: actions/upload-artifact@v3
