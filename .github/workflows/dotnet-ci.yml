@@ -18,6 +18,11 @@ on:
         required: false
         default: 'Release'
         type: string
+      environment:
+        description: 'Environment to deploy'
+        required: false
+        default: 'develop'
+        type: string
 jobs:
   extract-version:
     runs-on: ubuntu-latest
@@ -62,3 +67,27 @@ jobs:
         run: |
           Compress-Archive -Path ./publish/* -DestinationPath ${{inputs.artifactname}}.zip
         shell: pwsh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{inputs.artifactname}}
+          path: ${{inputs.artifactname}}.zip
+  
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    needs: build
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{inputs.artifactname}}
+      - name: Mostrar variable
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Version: ${{ vars.VARIABLE_GITHUB }}"
